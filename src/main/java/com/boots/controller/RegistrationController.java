@@ -1,7 +1,7 @@
 package com.boots.controller;
 
 import com.boots.entity.User;
-import com.boots.service.UserService;
+import com.boots.service.MyUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import java.util.List;
 public class RegistrationController {
 
     @Autowired
-    private UserService userService;
+    private MyUserDetailService userService;
 
     @GetMapping("/registration")
     public String registration(Model model) {
@@ -32,7 +32,7 @@ public class RegistrationController {
 
         List<String> errors = new ArrayList<>();
 
-        if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
+        if (!userForm.getPassword().equals(userForm.getMatchingPassword())){
             errors.add("Пароли не совпадают");
             //model.addAttribute("error", "Пароли не совпадают");
             //return "registration";

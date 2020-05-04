@@ -2,7 +2,6 @@ package com.boots.controller;
 
 import com.boots.entity.Role;
 import com.boots.repository.UserRepository;
-import com.boots.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
