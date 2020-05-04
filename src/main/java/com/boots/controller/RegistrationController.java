@@ -12,19 +12,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class RegistrationController {
 
     @Autowired
     private UserService userService;
-
-    @GetMapping("/")
-    public String getIndex(Model model) {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
-        model.addAttribute("userName", SecurityContextHolder.getContext().getAuthentication().getName());
-        return "index";
-    }
 
     @GetMapping("/registration")
     public String registration(Model model) {
@@ -35,15 +30,23 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String addUser(@ModelAttribute("newUser") @Valid User userForm, Model model) {
 
+        List<String> errors = new ArrayList<>();
+
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
-            model.addAttribute("passwordError", "Пароли не совпадают");
-            return "registration";
+            errors.add("Пароли не совпадают");
+            //model.addAttribute("error", "Пароли не совпадают");
+            //return "registration";
         }
         if (!userService.saveUser(userForm)){
-            model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
-            return "registration";
+            errors.add("Пользователь с таким именем уже существует");
+            //model.addAttribute("eError", "Пользователь с таким именем уже существует");
+            //return "registration";
         }
 
-        return "redirect:/";
+        if (errors.isEmpty()) {
+            return "redirect:/";
+        }
+        model.addAttribute("errors", errors);
+        return "registration";
     }
 }
