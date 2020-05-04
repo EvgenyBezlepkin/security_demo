@@ -76,7 +76,7 @@ public class User {
         this.email = email;
     }
 
-    public Set<? extends GrantedAuthority> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 

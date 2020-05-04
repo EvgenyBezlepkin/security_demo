@@ -10,8 +10,7 @@ public class MainController {
 
     @GetMapping("/")
     public String getIndex(Model model) {
-        System.out.println("in index");
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+        //System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
         model.addAttribute("userName", SecurityContextHolder.getContext().getAuthentication().getName());
         return "index";
     }

@@ -19,7 +19,7 @@ import java.util.*;
 
 @Service
 @Transactional
-public class MyUserDetailService implements UserDetailsService {
+public class SaveUser {
 
     @Autowired
     private UserRepository userRepository;
@@ -27,28 +27,6 @@ public class MyUserDetailService implements UserDetailsService {
     RoleRepository roleRepository;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        User user = userRepository.findByEmail(username);
-        if (user == null) {
-            return null;
-        }
-        boolean enabled = true;
-        boolean accountNonExpired = true;
-        boolean credentialsNonExpired = true;
-        boolean accountNonLocked = true;
-        System.out.println(user.getLastName());
-        return new org.springframework.security.core.userdetails.User(
-                        user.getLastName(),
-                        bCryptPasswordEncoder.encode(user.getPassword()),
-                        enabled,
-                        accountNonExpired,
-                        credentialsNonExpired,
-                        accountNonLocked,
-                        user.getRoles());
-    }
 
     @Transactional
     public boolean saveUser(User userFromForm)
