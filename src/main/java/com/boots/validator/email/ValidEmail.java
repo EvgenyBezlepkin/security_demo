@@ -1,4 +1,4 @@
-package com.boots.validator;
+package com.boots.validator.email;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

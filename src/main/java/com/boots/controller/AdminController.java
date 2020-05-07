@@ -35,14 +35,8 @@ public class AdminController {
                               @RequestParam String action) {
         if (action.equals("delete")){
             userRepository.deleteById(userId);
-            //userService.deleteUser(userId);
         }
         return "redirect:/admin";
     }
 
-//    @GetMapping("/admin/gt/{userId}")
-//    public String  gtUser(@PathVariable("userId") Long userId, Model model) {
-//        model.addAttribute("allUsers", userService.usergtList(userId));
-//        return "admin";
-//    }
 }

@@ -1,20 +1,30 @@
 package com.boots;
 
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
 
-@SpringBootApplication
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
+//@SpringBootApplication
 public class Application {
 
     private static ApplicationContext applicationContext;
+    @Bean
+    private static AnnotationConfigApplicationContext getAnnotationConfigApplicationContext() {
+        return new AnnotationConfigApplicationContext();
+    }
 
     public static void main(String[] args) {
+
         applicationContext = SpringApplication.run(Application.class, args);
         //displayAllBeans();
     }

@@ -15,21 +15,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public class CustomAuthencationProvider implements AuthenticationProvider {
+public class MyAuthenticationProvider implements AuthenticationProvider {
+
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
-    private UserRepository dao;
+    private UserRepository userRepository;
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         String userName = authentication.getName();
         String password = authentication.getCredentials().toString();
-        User myUser = dao.findByEmail(userName);
+        User myUser = userRepository.findByEmail(userName);
         if (myUser == null) {
             throw new BadCredentialsException("Unknown user "+userName);
         }

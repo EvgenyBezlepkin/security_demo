@@ -10,7 +10,9 @@ public class MainController {
 
     @GetMapping("/")
     public String getIndex(Model model) {
-        //System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        // класс SecurityContextHolder хранит в себе аутентификацию обычно в ThreadLocal переменной
+
         model.addAttribute("userName", SecurityContextHolder.getContext().getAuthentication().getName());
         return "index";
     }
