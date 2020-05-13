@@ -20,10 +20,13 @@ import java.util.stream.Collectors;
 @Component
 public class MyAuthenticationProvider implements AuthenticationProvider {
 
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
     private UserRepository userRepository;
+
+    public MyAuthenticationProvider(BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -32,17 +35,16 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
         User myUser = userRepository.findByEmail(userName);
         if (myUser == null) {
-            throw new BadCredentialsException("Unknown user "+userName);
+            throw new BadCredentialsException("Unknown user");
         }
-        if (!password.equals(myUser.getPassword())) {
+
+        if (!bCryptPasswordEncoder.matches(password, myUser.getPassword())) {
             throw new BadCredentialsException("Bad password");
         }
 
         List<String> roles = myUser.getRoles().stream()
                 .map(Role::getName)
                 .collect(Collectors.toList());
-
-        System.out.println(String.valueOf(roles));
 
         UserDetails principal =  new org.springframework.security.core.userdetails.User
                 (myUser.getLastName(),

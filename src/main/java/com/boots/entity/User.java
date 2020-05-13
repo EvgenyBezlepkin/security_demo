@@ -1,5 +1,6 @@
 package com.boots.entity;
 
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -8,8 +9,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+
 @Entity
 @Table
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,12 +25,10 @@ public class User {
     @Size(min=2, message = "Не меньше 5 знаков")
     private String password;
     private String matchingPassword;
+    private boolean enabled;
     private String email;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
-
-    public User() {
-    }
 
     public Long getId() {
         return id;
@@ -68,6 +70,14 @@ public class User {
         this.matchingPassword = matchingPassword;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -82,25 +92,5 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(lastName, user.lastName) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(matchingPassword, user.matchingPassword) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(roles, user.roles);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, firstName, lastName, password, matchingPassword, email, roles);
     }
 }

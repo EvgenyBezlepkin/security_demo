@@ -23,6 +23,9 @@
                 <td>
                     <!--<c:forEach items="${user.roles}" var="role">${role.name}; </c:forEach>-->
                 </td>
+
+<!--                проверка expiracyDate-->
+
                 <td>
                     <form action="/admin" method="post">
                         <input type="hidden" name="userId" th:value="${currentUser.id}"/>

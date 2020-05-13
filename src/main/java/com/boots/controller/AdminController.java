@@ -20,8 +20,11 @@ import java.util.Collection;
 @Controller
 public class AdminController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public AdminController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
 
     @GetMapping("/admin")
@@ -29,6 +32,7 @@ public class AdminController {
         model.addAttribute("allUsers", userRepository.findAll());
         return "admin";
     }
+
 
     @PostMapping("/admin")
     public String  deleteUser(@RequestParam Long userId,
@@ -38,5 +42,4 @@ public class AdminController {
         }
         return "redirect:/admin";
     }
-
 }
