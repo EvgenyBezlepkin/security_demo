@@ -2,18 +2,10 @@ package com.boots.service;
 
 import com.boots.entity.Role;
 import com.boots.entity.User;
-import com.boots.entity.VerificationToken;
+import com.boots.entity.Token;
 import com.boots.repository.RoleRepository;
 import com.boots.repository.UserRepository;
-import com.boots.repository.VerificationTokenRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import com.boots.repository.TokenRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,19 +17,19 @@ import java.util.*;
 @Transactional
 public class UserService {
 
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private VerificationTokenRepository tokenRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final TokenRepository tokenRepository;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, VerificationTokenRepository tokenRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, TokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.tokenRepository = tokenRepository;
     }
 
-    //@Transactional
+    @Transactional
     public User saveUser(User userFromForm) {
         if (emailExists(userFromForm.getEmail())) {
             System.out.println("There is an account with that email address:");
@@ -61,18 +53,8 @@ public class UserService {
     }
 
 
-    public User getUserByVerificationToken(String verificationToken) {
-        User user = tokenRepository.findByToken(verificationToken).getUser();
-        return user;
-    }
-
-    public VerificationToken getVerificationToken(String VerificationToken) {
-        return tokenRepository.findByToken(VerificationToken);
-    }
-
-
     public void createVerificationToken(User user, String token) {
-        VerificationToken myToken = new VerificationToken(token, user, LocalDateTime.now());
+        Token myToken = new Token(token, user, LocalDateTime.now());
         tokenRepository.save(myToken);
     }
 

@@ -5,16 +5,18 @@ import org.springframework.context.ApplicationEvent;
 
 import java.util.Locale;
 
-public class OnRegistrationCompleteEvent extends ApplicationEvent {
+public class PasswordActionsEvent extends ApplicationEvent {
     private String appUrl;
     private Locale locale;
     private User user;
+    private EventType eventType;
 
-    public OnRegistrationCompleteEvent(User user, Locale locale, String appUrl) {
+    public PasswordActionsEvent(User user, Locale locale, String appUrl, EventType eventType) {
         super(user);
         this.user = user;
         this.locale = locale;
         this.appUrl = appUrl;
+        this.eventType = eventType;
     }
 
     public String getAppUrl() {
@@ -39,5 +41,13 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public EventType getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
     }
 }

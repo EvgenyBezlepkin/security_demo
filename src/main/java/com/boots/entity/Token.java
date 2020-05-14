@@ -1,5 +1,8 @@
 package com.boots.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -8,9 +11,8 @@ import java.util.Date;
 
 
 @Entity
-public class VerificationToken {
 
-    private static final int EXPIRATION = 60 * 24;
+public class Token {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,29 +26,13 @@ public class VerificationToken {
 
     private LocalDateTime expiryDate;
 
-    public VerificationToken() {
+    public Token() {
     }
 
-    public VerificationToken(String token, User user) {
-        this.token = token;
-        this.user = user;
-    }
-
-    public VerificationToken(String token, User user, LocalDateTime expiryDate) {
+    public Token(String token, User user, LocalDateTime expiryDate) {
         this.token = token;
         this.user = user;
         this.expiryDate = expiryDate;
-    }
-
-    private Date calculateExpiryDate(int expiryTimeInMinutes) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Timestamp(cal.getTime().getTime()));
-        cal.add(Calendar.MINUTE, expiryTimeInMinutes);
-        return new Date(cal.getTime().getTime());
-    }
-
-    public static int getEXPIRATION() {
-        return EXPIRATION;
     }
 
     public Long getId() {

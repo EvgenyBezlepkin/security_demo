@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 @Component
 public class MyAuthenticationProvider implements AuthenticationProvider {
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository userRepository;
 
     public MyAuthenticationProvider(BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -42,9 +42,9 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Bad password");
         }
 
-        List<String> roles = myUser.getRoles().stream()
-                .map(Role::getName)
-                .collect(Collectors.toList());
+//        List<String> roles = myUser.getRoles().stream()
+//                .map(Role::getName)
+//                .collect(Collectors.toList());
 
         UserDetails principal =  new org.springframework.security.core.userdetails.User
                 (myUser.getLastName(),

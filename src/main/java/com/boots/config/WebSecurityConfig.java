@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         http
                 .authorizeRequests()
-                .antMatchers("/", "/login", "/registrationConfirm**").permitAll()
+                .antMatchers("/", "/login", "/registrationConfirm**", "/forgot", "/forgotPassword", "/changePassword").permitAll()
                 .antMatchers("/registration").not().fullyAuthenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/news").hasRole("USER")
@@ -49,7 +49,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .deleteCookies("JSESSIONID", "XSRF-TOKEN")
                 .logoutSuccessUrl("/");
-                //.deleteCookies("JSESSIONID", "XSRF-TOKEN");
         http
                 .exceptionHandling().accessDeniedPage("/denied");
 

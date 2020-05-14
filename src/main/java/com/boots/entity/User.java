@@ -11,7 +11,6 @@ import java.util.Set;
 
 
 @Entity
-@Table
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
